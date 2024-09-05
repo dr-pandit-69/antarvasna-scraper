@@ -26,6 +26,9 @@ This project is a **web scraper** designed to scrape stories and relevant metada
 **Main script for scraping URLs stories with parallelization**\
 ├── urlsindex_scraper.py \
 **Main script for scraping comic stories without parallelization**\
+├── delete_none.py \
+**Deletes the None values in the DB, just in case some random error occurs**\
+
 
 
 ### Steps to run the Project
