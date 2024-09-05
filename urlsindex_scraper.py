@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 import chromedriver_handler
 import os
 from dotenv import load_dotenv
+import platform
 
 load_dotenv()
 PROCESSED_URLS_FILE = os.getenv('PROCESSED_URLS_FILE', 'processed_urls.txt')
@@ -13,11 +14,16 @@ COLLECTED_URLS_FILE = os.getenv('COLLECTED_URLS_FILE', 'collected_urls.txt')
 def setup_driver():
     chrome_options = Options()
     chrome_options.add_argument("--start-minimized")
-    service = Service(executable_path="driver/chromedriver.exe")
+
+    # Detect the operating system and set the path accordingly
+    if platform.system() == "Windows":
+        service = Service(executable_path="driver/chromedriver.exe")
+    else :  
+        service = Service(executable_path="driver/chromedriver")
     
+
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
-
 
 def scrape_page(url):
     driver = setup_driver()

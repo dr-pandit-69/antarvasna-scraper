@@ -6,12 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from urlsindex_scraper import setup_driver
 
-def setup_driver():
-    chrome_options = Options()
-    service = Service(executable_path="driver/chromedriver.exe")
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
 
 
 def extract_elements(url):
