@@ -4,16 +4,17 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import chromedriver_handler
 import os
+from dotenv import load_dotenv
 
-
-chromedriver_handler.setup_chromedriver()
-
+load_dotenv()
 PROCESSED_URLS_FILE = os.getenv('PROCESSED_URLS_FILE', 'processed_urls.txt')
 COLLECTED_URLS_FILE = os.getenv('COLLECTED_URLS_FILE', 'collected_urls.txt')
 
 def setup_driver():
     chrome_options = Options()
+    chrome_options.add_argument("--start-minimized")
     service = Service(executable_path="driver/chromedriver.exe")
+    
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
@@ -87,4 +88,8 @@ def main():
     print(f"Scraping completed.")
 
 if __name__ == "__main__":
+    
+    
+    chromedriver_handler.setup_chromedriver()
+
     main()

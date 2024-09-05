@@ -1,6 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from joblib import Parallel, delayed
 import chromedriver_handler
@@ -10,28 +7,9 @@ import os
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from dotenv import load_dotenv
-
-load_dotenv()
-
-chromedriver_handler.setup_chromedriver()
+from urlsindex_scraper import setup_driver, save_processed_url, save_collected_urls, load_processed_urls
 
 
-MAX_RETRIES = int(os.getenv('MAX_RETRIES', 3))
-PARALLEL_INSTANCES=int(os.getenv('PARALLEL_INSTANCES', 4))
-PROCESSED_URLS_FILE = os.getenv('PROCESSED_URLS_FILE', 'processed_urls.txt')
-COLLECTED_URLS_FILE = os.getenv('COLLECTED_URLS_FILE', 'collected_urls.txt')
-
-
-def setup_driver():
-    chrome_options = Options()
-    chrome_options.add_argument("--start-minimized")
-    
-    
-    service = Service(executable_path="driver/chromedriver.exe")
-
-    
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    return driver
 
 
 def scrape_page(url, retries=0):
@@ -77,25 +55,6 @@ def scrape_page(url, retries=0):
 
     return links, None 
 
-
-def save_processed_url(url):
-    with open(PROCESSED_URLS_FILE, 'a') as f:
-        f.write(f"{url}\n")
-
-def save_collected_urls(links):
-    with open(COLLECTED_URLS_FILE, 'a') as f:  
-        for link in links:
-            f.write(f"{link}\n")
-
-
-def load_processed_urls():
-    if os.path.exists(PROCESSED_URLS_FILE):
-        with open(PROCESSED_URLS_FILE, 'r') as f:
-            processed_urls = f.read().splitlines()
-            processed_urls.sort()
-    else:
-        processed_urls = []
-    return processed_urls
 
 
 def process_url(url):
@@ -151,4 +110,14 @@ def main():
         print(f"Failed pages saved to failed_pages.txt")
 
 if __name__ == "__main__":
+    load_dotenv()
+
+    chromedriver_handler.setup_chromedriver()
+
+
+    MAX_RETRIES = int(os.getenv('MAX_RETRIES', 3))
+    PARALLEL_INSTANCES=int(os.getenv('PARALLEL_INSTANCES', 4))
+    PROCESSED_URLS_FILE = os.getenv('PROCESSED_URLS_FILE', 'processed_urls.txt')
+    COLLECTED_URLS_FILE = os.getenv('COLLECTED_URLS_FILE', 'collected_urls.txt')
+
     main()

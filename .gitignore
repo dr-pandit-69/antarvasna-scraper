@@ -14,7 +14,7 @@ processed_urls.txt
 comic_data.db
 
 # Ignore tempCodeRunner.py
-tempCodeRunner.py
+tempCodeRunnerFile.py
 
 # Ignore collected_urls.txt
 collected_urls.txt

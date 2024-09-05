@@ -4,7 +4,9 @@ from data_extractor import extract_elements  # Importing the extraction function
 from joblib import Parallel, delayed
 import init_db
 import chromedriver_handler
-
+from dotenv import load_dotenv
+from stories_scraper import load_urls_from_file, is_url_in_db
+load_dotenv()
 
 chromedriver_handler.setup_chromedriver()
 
@@ -47,26 +49,6 @@ def process_url(url):
     except Exception as e:
         print(f"Error processing {url}: {e}")  
         return None
-
-
-def load_urls_from_file(file_path):
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as file:
-            return [line.strip() for line in file.readlines()]
-    else:
-        print(f"{file_path} does not exist.")
-        return []
-
-def is_url_in_db(url):
-    conn = sqlite3.connect('comic_data.db')
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT 1 FROM comic_data WHERE url = ?', (url,))
-    result = cursor.fetchone()
-
-    conn.close()
-
-    return result is not None
 
 
 
