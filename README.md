@@ -45,12 +45,12 @@ This project is a **web scraper** designed to scrape stories and relevant metada
 ```bash
 pipenv shell
 ```
-4. Install the dependencies
+3. Install the dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
-5. Adjust the Environment variables in .env file according to your preference
+4. Adjust the Environment variables in .env file according to your preference
 
 ```bash
 PARALLEL_INSTANCES=<Number of cores in your CPU>
